@@ -1,27 +1,71 @@
 <?php
-?>
+
+require_once('persistence.class.php');
+
+$right_drop_type = persistence::user()->authenticated() ? "profile" : "login";
+$username        = persistence::user()->username;
+
+
+$login = <<<LOGIN
+<li class="nav-login dropdown" id="{$right_drop_type}">
+  <a>Login</a>
+
+  <ul class="dropdown-menu">
+    <li>
+      <span>
+        <form action="login.php" method="POST" id="nav-form">
+         <input type="email" placeholder="e-mail" name="alias"/>
+        </form>
+      </span>
+    </li>
+    <li id="pass">
+      <input type="password" placeholder="password" name="password"/>
+      <button type="button" id="register_btn">Register</button>
+      <button type="button" id="login_btn">Login</button>
+    </li>
+  </ul>
+</li>
+LOGIN;
+
+$profile = <<<PROFILE
+<li class="nav-login dropdown" id="{$right_drop_type}">
+  <a>{$username}</a>
+
+  <ul class="dropdown-menu">
+    <li><a>Profile</a></li>
+    <li><a>Sign Out</a></li>
+  </ul>
+</li>
+PROFILE;
+
+
+$header = <<<HEAD
 <header class="navbar" role="navigation">
+  <div id="bg">
+  </div>
+
   <div class="container">
     <div class="navbar-header">
 
-      <a id=="navbar-brand" href="/">
+      <a id="nav-logo" href="/">
         <!-- edd logo -->
       </a>
-      </div><!-- ./navbar-header -->
+      </div>
 
     <div id="contact">
 
     </div>
 
-    <div class="nav-menu">
+    <nav id="sticky-menu" class="nav-menu">
       <ul class="nav navbar-nav">
         <li>
-          <a href="/">Home</a>
+          <a class="tab" href="">Home</a>
         </li>
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle">
+          <a class="dropdown-toggle tab">
             Cakes
+            <span class="glyphicon glyphicon-menu-down"></span>
           </a>
           <!--TODO:: glyph here-->
           <ul class="dropdown-menu">
@@ -38,52 +82,38 @@
             </li>
             <li class="divider"></li>
             <li>
-              <a href="#">Treats & Flavours</a>
+              <a href="#">Treats &amp; Flavours</a>
             </li>
           </ul>
         </li>
 
         <li>
-          <a href="#">Bread</a>
+          <a class="tab">Bread</a>
         </li>
 
         <li>
-          <a href="#">Prices & Portions</a>
+          <a class="tab">Store</a>
         </li>
 
         <li>
-          <a href="#">About</a>
+          <a class="tab">About</a>
         </li>
 
         <li>
-          <a href="#">FAQ</a>
+          <a class="tab">FAQ</a>
         </li>
 
         <li>
-          <a href="#">Contact</a>
+          <a class="tab">Contact</a>
         </li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right dropdown">
-        <li class="nav-login">
-          <a href="#">Login</a>
+      <ul class="nav navbar-nav navbar-right">
+        {${$right_drop_type}}
+      </ul>
+    </nav>
+  </div>
+</header>
+HEAD;
 
-          <ul class="dropdown-menu">
-            <li>
-            <span class="invisble">
-              <form action="login.php" method="POST" id="nav-form">
-               <input type="email" placeholder="e-mail" name="alias"/>
-              </form>
-            </span>
-            </li>
-            <li id="pass">
-              <input type="password" placeholder="password" name="password"/>
-              <button type="button">Register</button>
-              <button type="button">Login</button>
-            </li>
-    </ul><!-- /.dropdown-menu -->
-        </li><!-- /.nav-login -->
-      </ul><!-- /.nav navbar-nav navbar-right dropdown -->
-    </div><!-- /.nav-menu -->
-  </div><!-- /.container -->
-</header><!-- /.navbar -->
+echo $header;
